@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# change as per your need
+# location=/mnt/analysis/mongodb-play
+# binary_path=/mnt/analysis/mongodb
+
+location=/Users/rahul.bhooteshwar/dev/mongodb-play/native-no-docker-setup
+binary_path=/Users/rahul.bhooteshwar/dev/mongodb-play/native-no-docker-setup/mongodb
+
+instance=$1
+
+if [ -z "$instance" ]; then
+  echo "Usage: start.sh <instance>"
+  exit 1
+fi
+
+
+
+# if mongo1 then port is 27017
+if [ "$instance" == "mongo1" ]; then
+  port=27017
+fi
+
+# if mongo2 then port is 27018
+if [ "$instance" == "mongo2" ]; then
+  port=27018
+fi
+
+# if mongo3 then port is 27019
+if [ "$instance" == "mongo3" ]; then
+  port=27019
+fi
+
+# if invalid instance then exit
+
+if [ -z "$port" ]; then
+  echo "Invalid instance - $instance! It should be mongo1, mongo2 or mongo3"
+  exit 1
+fi
+
+# check if the corresponding mongod instance is already running
+
+pid=$(ps -ef | grep mongod | grep $port | awk '{print $2}')
+
+if [ ! -z "$pid" ]; then
+  echo "mongod instance for $instance is already running with pid $pid"
+  echo "check logs using tail -f $location/$instance/logfile.log"
+  exit 1
+fi
+
+# start the corresponding mongod instance
+# on local machine, you can use the following command
+$binary_path/mongod --port $port --dbpath $location/$instance --logpath $location/$instance/logfile.log --replSet rs0 > /dev/null &
+
+# on deployment hosts
+# $binary_path/mongod --config $location/mongod.conf --port $port --dbpath $location/$instance --logpath $location/$instance/logfile.log --replSet rs0 > /dev/null &
+
+echo "$instance started."
+
+
+echo "Check logs using tail -f $location/$instance/logfile.log"

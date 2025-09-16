@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: redis-local
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-}
+      - REDIS_AUTH_ENABLED=${REDIS_AUTH_ENABLED:-false}
+    volumes:
+      - ./data:/data
+      - ./logs:/var/log/redis
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    command: >
+      sh -c "
+        if [ \"$$REDIS_AUTH_ENABLED\" = \"true\" ] && [ -n \"$$REDIS_PASSWORD\" ]; then
+          echo 'Starting Redis with authentication...';
+          redis-server /usr/local/etc/redis/redis.conf --requirepass \"$$REDIS_PASSWORD\" --logfile /var/log/redis/redis.log;
+        else
+          echo 'Starting Redis without authentication...';
+          redis-server /usr/local/etc/redis/redis.conf --logfile /var/log/redis/redis.log;
+        fi
+      "
+    networks:
+      - redis-network
+    healthcheck:
+      test: |
+        if [ "$REDIS_AUTH_ENABLED" = "true" ] && [ -n "$REDIS_PASSWORD" ]; then
+          redis-cli -a "$REDIS_PASSWORD" ping
+        else
+          redis-cli ping
+        fi
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+networks:
+  redis-network:
+    driver: bridge

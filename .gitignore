@@ -1,0 +1,7 @@
+.DS_Store
+.idea
+.vscode
+data
+logs
+mongodb-setup/database-tools-macos/bin
+mongodb-setup/setup-using-native-executables/mongodb

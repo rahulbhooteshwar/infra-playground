@@ -1,0 +1,35 @@
+
+services:
+  vault:
+    container_name: my-local-vault
+    image: hashicorp/vault:1.2.6
+    cap_add:
+      - IPC_LOCK
+    environment:
+      VAULT_LOCAL_CONFIG: >-
+        {
+          "storage": { "file": { "path": "/vault/file" } },
+          "listener": [
+            { "tcp": { "address": "0.0.0.0:8200", "tls_disable": true } }
+          ],
+          "default_lease_ttl": "168h",
+          "max_lease_ttl": "720h",
+          "ui": true
+        }
+    ports:
+      - "8200:8200"
+    volumes:
+      - ${VAULT_DATA_PATH}:/vault/file
+    networks:
+      - vault-network
+      - qcal-network
+    command: server
+    restart: always
+
+networks:
+  qcal-network:
+    name: qcal-network_dev
+    external: true
+  vault-network:
+    name: ${NETWORK_NAME}
+    driver: bridge

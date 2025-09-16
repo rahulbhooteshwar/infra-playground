@@ -1,0 +1,58 @@
+services:
+  mongo1:
+    image: mongo:${MONGO_VERSION:-latest}
+    container_name: ${MONGO1_CONTAINER_NAME}
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_REPLICA_SET_NAME=${MONGO_REPLICA_SET_NAME}
+    ports:
+      - "${MONGO1_PORT}:${MONGO1_PORT}"
+    volumes:
+      - ${MONGO1_DATA_PATH}:/data/db
+      - ${MONGO1_LOG_PATH}:/var/log/mongodb
+      - ${MONGO_KEYFILE_PATH}:/etc/mongodb-keyfile
+    command: ["mongod", "--replSet", "${MONGO_REPLICA_SET_NAME}", "--bind_ip_all", "--keyFile", "/etc/mongodb-keyfile", "--port", "${MONGO1_PORT}"]
+    networks:
+      - mongo-network
+
+  mongo2:
+    image: mongo:${MONGO_VERSION:-latest}
+    container_name: ${MONGO2_CONTAINER_NAME}
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_REPLICA_SET_NAME=${MONGO_REPLICA_SET_NAME}
+    ports:
+      - "${MONGO2_PORT}:${MONGO2_PORT}"
+    volumes:
+      - ${MONGO2_DATA_PATH}:/data/db
+      - ${MONGO2_LOG_PATH}:/var/log/mongodb
+      - ${MONGO_KEYFILE_PATH}:/etc/mongodb-keyfile
+    command: ["mongod", "--replSet", "${MONGO_REPLICA_SET_NAME}", "--bind_ip_all", "--keyFile", "/etc/mongodb-keyfile", "--port", "${MONGO2_PORT}"]
+    networks:
+      - mongo-network
+
+  mongo3:
+    image: mongo:${MONGO_VERSION:-latest}
+    container_name: ${MONGO3_CONTAINER_NAME}
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_REPLICA_SET_NAME=${MONGO_REPLICA_SET_NAME}
+    ports:
+      - "${MONGO3_PORT}:${MONGO3_PORT}"
+    volumes:
+      - ${MONGO3_DATA_PATH}:/data/db
+      - ${MONGO3_LOG_PATH}:/var/log/mongodb
+      - ${MONGO_KEYFILE_PATH}:/etc/mongodb-keyfile
+    command: ["mongod", "--replSet", "${MONGO_REPLICA_SET_NAME}", "--bind_ip_all", "--keyFile", "/etc/mongodb-keyfile", "--port", "${MONGO3_PORT}"]
+    networks:
+      - mongo-network
+
+networks:
+  mongo-network:
+    driver: bridge
