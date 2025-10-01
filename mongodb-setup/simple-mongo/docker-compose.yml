@@ -1,0 +1,21 @@
+services:
+  mongodb:
+    image: mongo:${MONGO_VERSION:-latest}
+    container_name: ${MONGO_CONTAINER_NAME}
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    ports:
+      - "${MONGO_PORT}:27017"
+    volumes:
+      - ${MONGO_DATA_PATH}:/data/db
+      - ${MONGO_LOG_PATH}:/var/log/mongodb
+      - ${MONGO_KEYFILE_PATH}:/etc/mongodb-keyfile
+    command: ["mongod", "--bind_ip_all", "--keyFile", "/etc/mongodb-keyfile"]
+    networks:
+      - mongo-network
+
+networks:
+  mongo-network:
+    driver: bridge

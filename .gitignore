@@ -5,3 +5,6 @@ data
 logs
 mongodb-setup/database-tools-macos/bin
 mongodb-setup/setup-using-native-executables/mongodb
+
+# Simple MongoDB setup - ignore generated data and log directories
+mongodb-setup/simple-mongo/data-volumes/
