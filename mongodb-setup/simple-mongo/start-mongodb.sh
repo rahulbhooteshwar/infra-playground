@@ -21,7 +21,7 @@ fi
 
 echo
 echo "Step 2: Starting MongoDB container..."
-docker-compose up -d
+docker compose up -d
 
 if [ $? -ne 0 ]; then
     echo "Error: Failed to start container"
@@ -49,6 +49,6 @@ echo "Copy and paste this URL directly into your application:"
 echo "mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@localhost:${MONGO_PORT}/"
 echo
 echo "Useful commands:"
-echo "  To stop: docker-compose down"
-echo "  To view logs: docker-compose logs -f"
+echo "  To stop: docker compose down"
+echo "  To view logs: docker compose logs -f"
 echo "  To connect via shell: docker exec -it ${MONGO_CONTAINER_NAME} mongosh -u ${MONGO_INITDB_ROOT_USERNAME} -p ${MONGO_INITDB_ROOT_PASSWORD}"

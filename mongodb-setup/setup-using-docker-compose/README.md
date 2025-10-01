@@ -64,7 +64,7 @@ If you prefer manual control:
 
 2. **Start containers**:
    ```bash
-   docker-compose up -d
+   docker compose up -d
    ```
 
 3. **Configure replica set**:
@@ -81,9 +81,9 @@ mongodb://admin:password123@localhost:27017,localhost:27018,localhost:27019/?rep
 
 ## Management Commands
 
-- **View logs**: `docker-compose logs -f`
-- **Stop containers**: `docker-compose down`
-- **Restart**: `docker-compose restart`
+- **View logs**: `docker compose logs -f`
+- **Stop containers**: `docker compose down`
+- **Restart**: `docker compose restart`
 - **Shell access**: `docker exec -it mongo1 mongo -u admin -p password123`
 
 ## Switching MongoDB Versions
@@ -114,7 +114,7 @@ logs/
 To change MongoDB version:
 
 1. Edit `mongodb.env` and change `MONGO_VERSION`
-2. Stop existing containers: `docker-compose down`
+2. Stop existing containers: `docker compose down`
 3. Start with new version: `./start-mongodb.sh`
 
 **Benefits:**

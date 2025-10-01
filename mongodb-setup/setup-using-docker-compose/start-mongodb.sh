@@ -20,7 +20,7 @@ fi
 
 echo
 echo "Step 2: Starting MongoDB containers..."
-docker-compose up -d
+docker compose up -d
 
 if [ $? -ne 0 ]; then
     echo "Error: Failed to start containers"
@@ -45,5 +45,5 @@ echo "=== MongoDB Setup Complete ==="
 echo "Connection URL:"
 echo "mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@localhost:${MONGO1_PORT},localhost:${MONGO2_PORT},localhost:${MONGO3_PORT}/?replicaSet=${MONGO_REPLICA_SET_NAME}"
 echo
-echo "To stop: docker-compose down"
-echo "To view logs: docker-compose logs -f"
+echo "To stop: docker compose down"
+echo "To view logs: docker compose logs -f"

@@ -7,7 +7,7 @@ echo
 source mongodb.env
 
 echo "Stopping MongoDB container: ${MONGO_CONTAINER_NAME}"
-docker-compose down
+docker compose down
 
 if [ $? -eq 0 ]; then
     echo "MongoDB container stopped successfully."
