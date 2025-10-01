@@ -11,8 +11,7 @@ services:
     volumes:
       - ${MONGO_DATA_PATH}:/data/db
       - ${MONGO_LOG_PATH}:/var/log/mongodb
-      - ${MONGO_KEYFILE_PATH}:/etc/mongodb-keyfile
-    command: ["mongod", "--bind_ip_all", "--keyFile", "/etc/mongodb-keyfile"]
+    command: ["mongod", "--bind_ip_all"]
     networks:
       - mongo-network
 
